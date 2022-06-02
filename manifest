@@ -1,0 +1,10 @@
+: 1
+name: libmbedtls
+version: 3.1.0-a.0.z
+summary: An open source, portable, easy to use, readable and flexible SSL library
+license: Apache-2.0
+description-file: upstream/README.md
+url: https://tls.mbed.org
+src-url: https://github.com/Mbed-TLS/mbedtls
+depends: * build2 >= 0.14.0
+depends: * bpkg >= 0.14.0

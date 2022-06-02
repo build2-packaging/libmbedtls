@@ -1,0 +1,24 @@
+using c
+
+h{*}: extension = h
+c{*}: extension = c
+
+h{*}: c.importable = true
+test.target = $c.target
+
+if ($c.id == 'gcc')
+{
+    cxx.poptions += "-Werror -Wall -Wextra -Wwrite-strings -Wformat=2 -Wno-format-nonliteral -Wvla -Wlogical-op -Wshadow -Wformat-overflow=2 -Wformat-truncation -Wformat-signedness"
+}
+elif ($c.id == 'clang')
+{
+    cxx.poptions += "-Werror -Wall -Wextra -Wwrite-strings -Wpointer-arith -Wimplicit-fallthrough -Wshadow -Wvla -Wformat=2 -Wno-format-nonliteral"
+}
+elif ($c.id == 'msvc')
+{
+    cxx.poptions += "/WX /W3"
+}
+else
+{
+    fail "Unsupported Compiler"
+}

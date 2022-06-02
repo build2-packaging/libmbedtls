@@ -1,0 +1,6 @@
+$out_root/
+{
+  include libmbedtls/
+}
+
+export $out_root/libmbedtls/$import.target
