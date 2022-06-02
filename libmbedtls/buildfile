@@ -3,9 +3,9 @@ c.poptions += "-I$src_base/include" "-I$src_base/library"
 if ($c.target.class == 'windows')
 {
     if ($c.target.system == 'mingw32')
-        c.libs += "-lws2_32"
+        c.libs += "-ladvapi32" "-lws2_32"
     else
-        c.libs += "ws2_32.lib"
+        c.libs += "advapi32.lib" "ws2_32.lib"
 }
 
 ./: lib{mbedcrypto}: \
