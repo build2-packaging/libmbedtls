@@ -5,6 +5,8 @@ if ($c.target.system == 'mingw32')
 
 if ($c.target.class == 'windows')
 {
+    c.poptions += "-DMBEDTLS_PLATFORM_HAS_NON_CONFORMING_SNPRINTF" \
+                  "-DMBEDTLS_PLATFORM_HAS_NON_CONFORMING_VSNPRINTF"
     if ($c.target.system == 'mingw32')
         c.libs += "-ladvapi32" "-lws2_32"
     else
@@ -18,7 +20,9 @@ if ($c.target.class == 'windows')
     library/h{aesni bn_mul check_crypto_config cipher_wrap common constant_time_internal constant_time_invasive ecdh_misc ecp_internal_alt ecp_invasive entropy_poll md_wrap mps_common mps_error mps_reader mps_trace padlock pk_wrap psa_crypto_aead psa_crypto_cipher psa_crypto_core psa_crypto_driver_wrappers psa_crypto_ecp psa_crypto_hash psa_crypto_invasive psa_crypto_its psa_crypto_mac psa_crypto_random_impl psa_crypto_rsa psa_crypto_se psa_crypto_slot_management psa_crypto_storage rsa_alt_helpers}
 lib{mbedcrypto}:
 {
-    cc.export.poptions += "-I$src_base/include"
+    cc.export.poptions += "-I$src_base/include" \
+                          "-DMBEDTLS_PLATFORM_HAS_NON_CONFORMING_SNPRINTF" \
+                          "-DMBEDTLS_PLATFORM_HAS_NON_CONFORMING_VSNPRINTF"
 }
 lib{mbedcrypto}: def{mbedcrypto}: include = ($c.target.system == 'win32-msvc')
 def{mbedcrypto}: libul{mbedcrypto}
