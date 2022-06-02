@@ -1,5 +1,13 @@
 c.poptions += "-I$src_base/include" "-I$src_base/library"
 
+if ($c.target.class == 'windows')
+{
+    if ($c.target.system == 'mingw32')
+        c.libs += "-lws2_32"
+    else
+        c.libs += "ws2_32.lib"
+}
+
 ./: lib{mbedcrypto}: \
     include/mbedtls/h{aes aria asn1 asn1write base64 bignum build_info camellia ccm chacha20 chachapoly check_config cipher cmac compat-2.x.h config_psa constant_time ctr_drbg des dhm ecdh ecdsa entropy ecjpake ecp error gcm hkdf hmac_drbg mbedtls_config md md5 memory_buffer_alloc nist_kw oid pem pk pkcs5 pkcs12 platform platform_time platform_util poly1305 private_access psa_util ripemd160 rsa sha1 sha256 sha512 threading timing version} \
     include/psa/h{*} \
