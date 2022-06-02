@@ -1,0 +1,3 @@
+import mbedcrypto = libmbedtls%lib{mbedcrypto}
+
+exe{test}: c{driver} $mbedcrypto
