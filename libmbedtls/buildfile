@@ -1,5 +1,8 @@
 c.poptions += "-I$src_base/include" "-I$src_base/library"
 
+if ($c.target.system == 'mingw32')
+  c.loptions += -Wl,--export-all-symbols
+
 if ($c.target.class == 'windows')
 {
     if ($c.target.system == 'mingw32')
@@ -8,33 +11,42 @@ if ($c.target.class == 'windows')
         c.libs += "advapi32.lib" "ws2_32.lib"
 }
 
-./: lib{mbedcrypto}: \
+./: lib{mbedcrypto}: libul{mbedcrypto}: \
     include/mbedtls/h{aes aria asn1 asn1write base64 bignum build_info camellia ccm chacha20 chachapoly check_config cipher cmac compat-2.x.h config_psa constant_time ctr_drbg des dhm ecdh ecdsa entropy ecjpake ecp error gcm hkdf hmac_drbg mbedtls_config md md5 memory_buffer_alloc nist_kw oid pem pk pkcs5 pkcs12 platform platform_time platform_util poly1305 private_access psa_util ripemd160 rsa sha1 sha256 sha512 threading timing version} \
     include/psa/h{*} \
     library/c{aes aesni aria asn1parse asn1write base64 bignum camellia ccm chacha20 chachapoly cipher cipher_wrap constant_time cmac ctr_drbg des dhm ecdh ecdsa ecjpake ecp ecp_curves entropy entropy_poll error gcm hkdf hmac_drbg md md5 memory_buffer_alloc mps_reader mps_trace nist_kw oid padlock pem pk pk_wrap pkcs12 pkcs5 pkparse pkwrite platform platform_util poly1305 psa_crypto psa_crypto_aead psa_crypto_cipher psa_crypto_client psa_crypto_driver_wrappers psa_crypto_ecp psa_crypto_hash psa_crypto_mac psa_crypto_rsa psa_crypto_se psa_crypto_slot_management psa_crypto_storage psa_its_file ripemd160 rsa rsa_alt_helpers sha1 sha256 sha512 ssl_debug_helpers_generated threading timing version version_features} \
     library/h{aesni bn_mul check_crypto_config cipher_wrap common constant_time_internal constant_time_invasive ecdh_misc ecp_internal_alt ecp_invasive entropy_poll md_wrap mps_common mps_error mps_reader mps_trace padlock pk_wrap psa_crypto_aead psa_crypto_cipher psa_crypto_core psa_crypto_driver_wrappers psa_crypto_ecp psa_crypto_hash psa_crypto_invasive psa_crypto_its psa_crypto_mac psa_crypto_random_impl psa_crypto_rsa psa_crypto_se psa_crypto_slot_management psa_crypto_storage rsa_alt_helpers}
+lib{mbedcrypto}:
 {
     cc.export.poptions += "-I$src_base/include"
 }
+lib{mbedcrypto}: def{mbedcrypto}: include = ($c.target.system == 'win32-msvc')
+def{mbedcrypto}: libul{mbedcrypto}
 
-./: lib{mbedx509}: \
+./: lib{mbedx509}: libul{mbedx509}: \
     include/mbedtls/h{x509 x509_crl x509_crt x509_csr} \
     library/c{x509 x509_create x509_crl x509_crt x509_csr x509write_crt x509write_csr} \
     lib{mbedcrypto}
+lib{mbedx509}:
 {
     cc.export.poptions += "-I$src_base/include"
     cc.export.libs += lib{mbedcrypto}
 }
+lib{mbedx509}: def{mbedx509}: include = ($c.target.system == 'win32-msvc')
+def{mbedx509}: libul{mbedx509}
 
-./: lib{mbedtls}: \
+./: lib{mbedtls}: libul{mbedtls}: \
     include/mbedtls/h{debug net_sockets ssl ssl_cache ssl_ciphersuites ssl_cookie ssl_ticket} \
     library/c{debug net_sockets ssl_cache ssl_ciphersuites ssl_cli ssl_cookie ssl_msg ssl_srv ssl_ticket ssl_tls ssl_tls13_keys ssl_tls13_server ssl_tls13_client ssl_tls13_generic ssl_debug_helpers_generated} \
     library/h{ssl_debug_helpers_generated ssl_misc ssl_tls13_keys} \
     lib{mbedx509}
+lib{mbedtls}:
 {
     cc.export.poptions += "-I$src_base/include"
     cc.export.libs += lib{mbedx509}
 }
+lib{mbedtls}: def{mbedtls}: include = ($c.target.system == 'win32-msvc')
+def{mbedtls}: libul{mbedtls}
 
 h{*}: install = false
 include/mbedtls/h{*}: install = include/mbedtls/
