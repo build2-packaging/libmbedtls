@@ -10,7 +10,7 @@ if ($c.id == 'gcc')
 {
     cxx.poptions += "-Werror -Wall -Wextra -Wwrite-strings -Wformat=2 -Wno-format-nonliteral -Wvla -Wlogical-op -Wshadow -Wformat-overflow=2 -Wformat-truncation -Wformat-signedness"
 }
-elif ($c.id == 'clang')
+elif ($c.id == 'clang' || $c.id == 'clang-apple')
 {
     cxx.poptions += "-Werror -Wall -Wextra -Wwrite-strings -Wpointer-arith -Wimplicit-fallthrough -Wshadow -Wvla -Wformat=2 -Wno-format-nonliteral"
 }
